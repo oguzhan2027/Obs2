@@ -27,5 +27,7 @@ namespace DataAccesLayer.Concrete
         public DbSet<Ogretmen> Ogretmens { get; set; }
         public DbSet<Login> Logins { get; set; }
        public DbSet<DersListesi> DersListesi { get; set;}
+        public DbSet<Devamsızlık> Devamsızlıks { get; set; }
+        public DbSet<Not> Nots { get; set; }
     }
 }

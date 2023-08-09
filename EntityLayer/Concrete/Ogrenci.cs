@@ -17,6 +17,7 @@ namespace EntityLayer.Concrete
         public int BolumID { get; set; }
         public Bolum Bolum { get; set; }
         public List<DersListesi> DersListesis { get; set; }
+        public List<Devamsızlık> Devamsızlıks { get; set; }
 
     }
 }

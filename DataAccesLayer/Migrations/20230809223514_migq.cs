@@ -4,7 +4,7 @@
 
 namespace DataAccesLayer.Migrations
 {
-    public partial class migf : Migration
+    public partial class migq : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -164,6 +164,55 @@ namespace DataAccesLayer.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Devamsızlıks",
+                columns: table => new
+                {
+                    DevamsızlıkID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DevamsızlıkDurumu = table.Column<bool>(type: "bit", nullable: false),
+                    DersListesiID = table.Column<int>(type: "int", nullable: false),
+                    OgrenciID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Devamsızlıks", x => x.DevamsızlıkID);
+                    table.ForeignKey(
+                        name: "FK_Devamsızlıks_DersListesi_DersListesiID",
+                        column: x => x.DersListesiID,
+                        principalTable: "DersListesi",
+                        principalColumn: "DersListesiID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Devamsızlıks_Ogrencis_OgrenciID",
+                        column: x => x.OgrenciID,
+                        principalTable: "Ogrencis",
+                        principalColumn: "OgrenciID",
+                        onDelete: ReferentialAction.NoAction);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Nots",
+                columns: table => new
+                {
+                    NotID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    VizeNotu = table.Column<int>(type: "int", nullable: false),
+                    FinalNotu = table.Column<int>(type: "int", nullable: false),
+                    Ortalama = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DersListesiID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Nots", x => x.NotID);
+                    table.ForeignKey(
+                        name: "FK_Nots_DersListesi_DersListesiID",
+                        column: x => x.DersListesiID,
+                        principalTable: "DersListesi",
+                        principalColumn: "DersListesiID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Bolums_FakulteID",
                 table: "Bolums",
@@ -190,6 +239,16 @@ namespace DataAccesLayer.Migrations
                 column: "OgrenciID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Devamsızlıks_DersListesiID",
+                table: "Devamsızlıks",
+                column: "DersListesiID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Devamsızlıks_OgrenciID",
+                table: "Devamsızlıks",
+                column: "OgrenciID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Logins_OgrenciID",
                 table: "Logins",
                 column: "OgrenciID");
@@ -200,6 +259,11 @@ namespace DataAccesLayer.Migrations
                 column: "OgretmenID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Nots_DersListesiID",
+                table: "Nots",
+                column: "DersListesiID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Ogrencis_BolumID",
                 table: "Ogrencis",
                 column: "BolumID");
@@ -208,10 +272,16 @@ namespace DataAccesLayer.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "DersListesi");
+                name: "Devamsızlıks");
 
             migrationBuilder.DropTable(
                 name: "Logins");
+
+            migrationBuilder.DropTable(
+                name: "Nots");
+
+            migrationBuilder.DropTable(
+                name: "DersListesi");
 
             migrationBuilder.DropTable(
                 name: "Derses");

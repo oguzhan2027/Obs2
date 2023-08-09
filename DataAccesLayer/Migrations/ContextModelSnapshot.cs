@@ -93,6 +93,32 @@ namespace DataAccesLayer.Migrations
                     b.ToTable("DersListesi");
                 });
 
+            modelBuilder.Entity("EntityLayer.Concrete.Devamsızlık", b =>
+                {
+                    b.Property<int>("DevamsızlıkID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DevamsızlıkID"), 1L, 1);
+
+                    b.Property<int>("DersListesiID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("DevamsızlıkDurumu")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("OgrenciID")
+                        .HasColumnType("int");
+
+                    b.HasKey("DevamsızlıkID");
+
+                    b.HasIndex("DersListesiID");
+
+                    b.HasIndex("OgrenciID");
+
+                    b.ToTable("Devamsızlıks");
+                });
+
             modelBuilder.Entity("EntityLayer.Concrete.Fakulte", b =>
                 {
                     b.Property<int>("FakulteID")
@@ -142,6 +168,33 @@ namespace DataAccesLayer.Migrations
                     b.HasIndex("OgretmenID");
 
                     b.ToTable("Logins");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.Not", b =>
+                {
+                    b.Property<int>("NotID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NotID"), 1L, 1);
+
+                    b.Property<int>("DersListesiID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FinalNotu")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Ortalama")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("VizeNotu")
+                        .HasColumnType("int");
+
+                    b.HasKey("NotID");
+
+                    b.HasIndex("DersListesiID");
+
+                    b.ToTable("Nots");
                 });
 
             modelBuilder.Entity("EntityLayer.Concrete.Ogrenci", b =>
@@ -264,6 +317,25 @@ namespace DataAccesLayer.Migrations
                     b.Navigation("Ogrenci");
                 });
 
+            modelBuilder.Entity("EntityLayer.Concrete.Devamsızlık", b =>
+                {
+                    b.HasOne("EntityLayer.Concrete.DersListesi", "DersListesi")
+                        .WithMany("Devamsızlıks")
+                        .HasForeignKey("DersListesiID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EntityLayer.Concrete.Ogrenci", "Ogrenci")
+                        .WithMany("Devamsızlıks")
+                        .HasForeignKey("OgrenciID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DersListesi");
+
+                    b.Navigation("Ogrenci");
+                });
+
             modelBuilder.Entity("EntityLayer.Concrete.Login", b =>
                 {
                     b.HasOne("EntityLayer.Concrete.Ogrenci", "Ogrenci")
@@ -281,6 +353,17 @@ namespace DataAccesLayer.Migrations
                     b.Navigation("Ogrenci");
 
                     b.Navigation("Ogretmen");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.Not", b =>
+                {
+                    b.HasOne("EntityLayer.Concrete.DersListesi", "DersListesi")
+                        .WithMany("Nots")
+                        .HasForeignKey("DersListesiID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DersListesi");
                 });
 
             modelBuilder.Entity("EntityLayer.Concrete.Ogrenci", b =>
@@ -306,6 +389,13 @@ namespace DataAccesLayer.Migrations
                     b.Navigation("DersListesis");
                 });
 
+            modelBuilder.Entity("EntityLayer.Concrete.DersListesi", b =>
+                {
+                    b.Navigation("Devamsızlıks");
+
+                    b.Navigation("Nots");
+                });
+
             modelBuilder.Entity("EntityLayer.Concrete.Fakulte", b =>
                 {
                     b.Navigation("Bolums");
@@ -314,6 +404,8 @@ namespace DataAccesLayer.Migrations
             modelBuilder.Entity("EntityLayer.Concrete.Ogrenci", b =>
                 {
                     b.Navigation("DersListesis");
+
+                    b.Navigation("Devamsızlıks");
                 });
 
             modelBuilder.Entity("EntityLayer.Concrete.Ogretmen", b =>

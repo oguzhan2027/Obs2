@@ -13,5 +13,7 @@ namespace EntityLayer.Concrete
         public Ders Ders { get; set; }
         public int OgrenciID { get; set; }
         public Ogrenci Ogrenci { get; set; }
+        public List<Devamsızlık> Devamsızlıks { get; set; }
+        public List<Not> Nots { get; set; }
     }
 }
